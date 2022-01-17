@@ -1,0 +1,2 @@
+rootProject.name = "Cobweb"
+include ':app', ':cobweb', ':register'
