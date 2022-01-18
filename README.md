@@ -37,6 +37,9 @@ dependencies {
 plugins {
     id 'cobweb-register'
 }
+
+// 4. 初始化
+Cobweb.initialize(getApplication())
 ```
 
 #### 子Module
@@ -47,6 +50,24 @@ dependencies {
     implementation 'io.github.senirr:cobweb:1.0.0-SNAPSHOT'
 }
 ```
+
+### 路由分发
+
+首先，需要指定提供方处理何种路由。通过实现`IRouter#onDispatch()`，指定处理对应的路由请求。
+
+```java
+public interface IRouter {
+    /**
+     * 路由分发
+     *
+     * @param uri 路由链接
+     * @return 是否处理此路由链接
+     */
+    boolean onDispatch(@NonNull Uri uri);
+}
+```
+
+**建议，各Module维护一套自己的路由表，方便后期导入接入文档。**
 
 ### 应用初始化代理
 
@@ -236,4 +257,31 @@ public static void registerInterceptor(IInterceptor interceptor)
  * 注销路由
  */
 public static void unregisterInterceptor(IInterceptor interceptor)
+```
+
+### 混淆
+
+`Cobweb`无需混淆处理。如果您坚持混淆，可以添加以下混淆规则：
+
+```
+-dontwarn com.senierr.cobweb.**
+-keep class com.senierr.cobweb.** { *; }
+```
+
+### License
+
+```
+Copyright 2022 senierr
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 ```
